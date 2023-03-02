@@ -8,6 +8,15 @@ import { useWindowSize } from './useWindowSize'
 export const App = () => {
   const { width } = useWindowSize()
   const [btnWidth, setBtnWidth] = useState<number | string>('auto')
+  const [deg, setDeg] = useState<boolean>(true)
+  const rotation = keyframes`
+          from {
+            transform: rotate(${deg ? 0 : 360}deg);
+          }
+          to {
+            transform: rotate(${deg ? 360 : 0}deg);
+          }
+      `
 
   useEffect(() => {
     setBtnWidth(width <= 500 ? '100%' : 'auto')
@@ -16,8 +25,8 @@ export const App = () => {
   return (
     <Container>
       <Tile>
-        <Logo src={logo} alt="logo" />
-        <Button text="Toggle rotation direction" width={btnWidth} />
+        <Logo src={logo} alt="logo" rotation={rotation} />
+        <Button text="Toggle rotation direction" width={width} onClick={() => setDeg(!deg)} />
         <Button text="Insert new logo before this one" width={btnWidth} />
         <Button text="Remove this logo" width={btnWidth} />
       </Tile>
@@ -42,17 +51,8 @@ const Tile = styled.div`
   gap: 0.5rem;
 `;
 
-const rotation = keyframes`
-from {
-  transform: rotate(0deg);
-}
-to {
-  transform: rotate(360deg);
-}
-`;
-
-const Logo = styled.img`
+const Logo = styled.img<{ rotation?: any }>`
   height: 10rem;
   pointer-events: none;
-  animation: ${rotation} infinite 20s linear;
-`;
+  animation: ${({ rotation }) => rotation} infinite 20s linear;
+`

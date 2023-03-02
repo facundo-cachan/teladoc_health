@@ -3,10 +3,13 @@ import styled from "@emotion/styled"
 type Props = {
   text: string;
   width?: number | string
+  onClick?: () => void
 };
 
-export const Button = ({ text, width }: Props) => {
-  return <StyledButton width={width}>{text}</StyledButton>;
+const onClickDefault = () => console.log('Click !!!')
+
+export const Button = ({ text, width, onClick = onClickDefault }: Props) => {
+  return <StyledButton width={width} onClick={onClick}>{text}</StyledButton>;
 };
 
 const StyledButton = styled.button<{ width: Props['width'] }>`
