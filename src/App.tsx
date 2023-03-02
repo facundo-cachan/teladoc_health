@@ -1,17 +1,25 @@
-import React from "react";
-import styled from "@emotion/styled";
-import logo from "./logo.svg";
-import { Button } from "./Button";
-import { keyframes } from "@emotion/react";
+import { keyframes } from "@emotion/react"
+import styled from "@emotion/styled"
+import { useEffect, useState } from 'react'
+import { Button } from "./Button"
+import logo from "./logo.svg"
+import { useWindowSize } from './useWindowSize'
 
 export const App = () => {
+  const { width } = useWindowSize()
+  const [btnWidth, setBtnWidth] = useState<number | string>('auto')
+
+  useEffect(() => {
+    setBtnWidth(width <= 500 ? '100%' : 'auto')
+  }, [width])
+
   return (
     <Container>
       <Tile>
         <Logo src={logo} alt="logo" />
-        <Button text="Toggle rotation direction" />
-        <Button text="Insert new logo before this one" />
-        <Button text="Remove this logo" />
+        <Button text="Toggle rotation direction" width={btnWidth} />
+        <Button text="Insert new logo before this one" width={btnWidth} />
+        <Button text="Remove this logo" width={btnWidth} />
       </Tile>
     </Container>
   );
