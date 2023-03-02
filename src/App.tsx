@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
 import { Suspense, lazy, useEffect, useState } from 'react'
 import { Button } from "./Button"
+
 import { useWindowSize } from './useWindowSize'
 
 const Container = styled.div`
@@ -23,12 +24,15 @@ export const App = () => {
   const newLogo = () => {
     setTiles((prev: number) => prev >= 1 ? prev + 1 : prev)
   }
+  const removeLogo = () => {
+    setTiles((prev: number) => prev >= 1 ? prev - 1 : prev)
+  }
 
   return (
     <Container>
-        {Array.from({ length: tiles }, (_, i) => (<Suspense key={i} fallback="Loading ..."><Tiler width={btnWidth} /></Suspense>))}
-        <Button text="Insert new logo before this one" width={btnWidth} onClick={newLogo} />
-        <Button text="Remove this logo" width={btnWidth} />
+      {Array.from({ length: tiles }, (_, i) => (<Suspense key={i} fallback="Loading ..."><Tiler width={btnWidth} /></Suspense>))}
+      <Button text="Insert new logo before this one" width={btnWidth} onClick={newLogo} />
+      <Button text="Remove this logo" width={btnWidth} onClick={removeLogo} disabled={tiles <= 1} />
     </Container>
-  );
-};
+  )
+}
