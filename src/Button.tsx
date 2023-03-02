@@ -1,4 +1,5 @@
 import styled from "@emotion/styled"
+import { memo } from 'react'
 
 type Props = {
   disabled?: boolean
@@ -9,9 +10,8 @@ type Props = {
 
 const onClickDefault = () => console.log('Click !!!')
 
-export const Button = ({ disabled = false, text, width = 'auto', onClick = onClickDefault }: Props) => {
-  return <StyledButton width={width} onClick={onClick} disabled={disabled}>{text}</StyledButton>
-}
+export const Button = memo(({ disabled = false, text, width = 'auto', onClick = onClickDefault }: Props) =>
+  <StyledButton width={width} onClick={onClick} disabled={disabled}>{text}</StyledButton>)
 
 const StyledButton = styled.button<{ width: Props['width'] }>`
   border: none;

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled"
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react'
 import { Button } from "./Button"
 
 import { useWindowSize } from './useWindowSize'
@@ -28,11 +28,25 @@ export const App = () => {
     setTiles((prev: number) => prev >= 1 ? prev - 1 : prev)
   }
 
+  const BtnAdd = useMemo(() => (<Button text="Insert new logo before this one"
+    width={btnWidth}
+    onClick={newLogo}
+  />), [btnWidth])
+  const BtnRemove = useMemo(() => (<Button text="Remove this logo" width={btnWidth}
+    onClick={removeLogo}
+    disabled={tiles <= 1}
+  />), [btnWidth, tiles])
+  const TilerMem = useMemo(() => <Tiler width={btnWidth} />, [btnWidth])
+
   return (
     <Container>
-      {Array.from({ length: tiles }, (_, i) => (<Suspense key={i} fallback="Loading ..."><Tiler width={btnWidth} /></Suspense>))}
-      <Button text="Insert new logo before this one" width={btnWidth} onClick={newLogo} />
-      <Button text="Remove this logo" width={btnWidth} onClick={removeLogo} disabled={tiles <= 1} />
+      {Array.from({ length: tiles }, (_, i) => (
+        <Suspense key={i} fallback="Loading ...">
+          {TilerMem}
+        </Suspense>
+      ))}
+      {BtnAdd}
+      {BtnRemove}
     </Container>
   )
 }
